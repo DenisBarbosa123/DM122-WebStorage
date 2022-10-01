@@ -40,16 +40,18 @@ const pokeHTML = pokemonList.map(toHTML).join('');
 document.body.innerHTML = pokeHTML;
 function toHTML(poke) {
     return `
-      <div>
-        <div class="card" style="border-color: var(--grass);">
-          <div class="card-id" style="color: var(--grass);">${poke.id}</div>
-          <div class="card-image">
-            <img alt="${poke.name}" src="${poke.picture}">
-          </div>
+     <section>
+        <div class="card-wrapper">
+            <div class="card">
+                <div class="card-id">${poke.id}</div>
+                <div class="card-image">
+                    <img alt="${poke.name}" src="${poke.picture}">
+                </div>
+            </div>
+            <div class="card-name">
+            ${poke.name}
+            </div>
         </div>
-        <div class="card-name" style="background-color: var(--grass);">
-          ${poke.name}
-        </div>
-      </div>
+     </section>
     `;
 }
