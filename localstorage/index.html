@@ -21,11 +21,12 @@
             gap: 1rem;
         }
     </style>
+    <script src="app.js" defer></script>
 </head>
 <body>
     <fieldset class="form-fieldset">
         <legend>Key/Value</legend>
-        <form class="form-content" onsubmit="return confirm('submit?')">
+        <form class="form-content">
             <label>
                 Key:
                 <input type="text" name="key" autofocus>
@@ -38,9 +39,7 @@
         </form>
     </fieldset>
     <output>
-        <script>
-            document.write(window.location.href);
-        </script>
+       
     </output>
     
 </body>
