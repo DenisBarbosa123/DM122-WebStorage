@@ -15,7 +15,7 @@ form.addEventListener('submit', (event) => {
 function readFromStorage() {
     document
     .querySelector('output')
-    .innerHTML += Object.keys(window.localStorage)
+    .innerHTML = Object.keys(window.localStorage)
     .map(htmlTemplate)
     .join("")
 }
