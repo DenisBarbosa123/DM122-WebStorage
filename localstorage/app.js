@@ -9,6 +9,8 @@ form.addEventListener('submit', (event) => {
    }
    console.log({formData});
    window.localStorage.setItem(form.key.value, form.value.value)
+   form.reset()
+   form.key.focus()
    readFromStorage()
 });
 
@@ -25,7 +27,16 @@ function htmlTemplate(key){
     return `
         <span>${key}</span>
         <span>${value}</span>
+        <span><img src="bin.svg" onclick="removeItem('${key}')"></span>
     `
+}
+
+function removeItem(key){
+    if(confirm('Are you sure you want to remove')){
+        window.localStorage.removeItem(key);
+        readFromStorage()
+    }
+   
 }
 
 readFromStorage();
