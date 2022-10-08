@@ -10,48 +10,67 @@ db.on("populate", async () => {
   await db.pokemon.bulkPut([
     {
       name: "Bulbasaur",
-      picture:
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
+      picture: await downloadImage(buildUrl(1)),
     },
     {
       name: "Charmander",
-      picture:
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",
+      picture: await downloadImage(buildUrl(4)),
     },
     {
       name: "Squirtle",
-      picture:
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",
+      picture: await downloadImage(buildUrl(7)),
     },
     {
       name: "Pikachu",
-      picture:
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
+      picture: await downloadImage(buildUrl(25)),
     },
   ]);
 });
 
 db.open();
 
-const pokemonList = await db.pokemon.toArray()
-console.log(pokemonList)
+function buildUrl(pokeNumber) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokeNumber}.png`;
+}
 
-const pokeHTML = pokemonList.map(toHTML).join('');
-document.body.innerHTML = pokeHTML;
+function byChar(char) {
+  return function (poke) {
+    console.log(poke.name);
+    return poke.name.includes(char);
+  };
+}
+
+const pokemonList = await db.pokemon
+  // .where("name")
+  // .startsWithIgnoreCase("c")
+  // .filter(byChar("a"))
+  .toArray();
+
+console.log(pokemonList);
+const section = document.createElement("section");
+const pokeHTML = pokemonList.map(toHTML).join("");
+section.innerHTML = pokeHTML;
+document.body.appendChild(section);
+
 function toHTML(poke) {
-    return `
-     <section>
-        <div class="card-wrapper">
-            <div class="card">
-                <div class="card-id">${poke.id}</div>
-                <div class="card-image">
-                    <img alt="${poke.name}" src="${poke.picture}">
-                </div>
-            </div>
-            <div class="card-name">
-            ${poke.name}
-            </div>
+  return `
+      <a href="#" class="card-wrapper">
+        <div class="card" style="border-color: var(--grass);">
+          <div class="card-id" style="color: var(--grass);">${poke.id}</div>
+          <div class="card-image">
+            <img alt="${poke.name}" src="${URL.createObjectURL(poke.picture)}">
+          </div>
         </div>
-     </section>
-    `;
+        <div class="card-name" style="background-color: var(--grass);">
+          ${poke.name}
+        </div>
+      </a>
+  `;
+}
+
+// Download and store an image
+async function downloadImage(imageUrl) {
+  const response = await fetch(imageUrl);
+  const blob = await response.blob();
+  return blob;
 }
