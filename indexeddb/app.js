@@ -70,6 +70,8 @@ async function retrieveData(){
   }
 }
 
+retrieveData()
+
 // Download and store an image
 async function downloadImage(imageUrl) {
   const response = await fetch(imageUrl);
